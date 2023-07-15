@@ -3,10 +3,20 @@ const app = express();
 import cors from "cors";
 import http from "http";
 import { Server } from "socket.io";
-
+import connectDB from "./db";
+import dotenv from "dotenv";
+import roomRouter from "./routes/room";
+import userRouter from "./routes/user";
+import chatRouter from "./routes/chat";
+dotenv.config();
 app.use(cors());
 
 const server = http.createServer(app);
+connectDB();
+
+app.use("/rooms", roomRouter);
+app.use("/users", userRouter);
+app.use("/chats", chatRouter);
 
 const io = new Server(server, {
 	cors: {
